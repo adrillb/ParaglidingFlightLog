@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+
+{% block title %}Home{% endblock %}
+
+{% block content %}
+<div class="container py-5">
+    <div class="text-center">
+        <h1 class="display-4 mb-4">Welcome to Paragliding Flight Log</h1>
+        <div class="row justify-content-center">
+            <div class="col-md-8">
+                <p class="lead text-muted">
+                    Track your paragliding adventures, analyze your flights, and keep a detailed record of your progress.
+                </p>
+                <div class="mt-5">
+                    <a href="{{ url_for('main.guide') }}" class="btn btn-warning btn-lg">
+                        <i class="fas fa-question-circle me-2"></i>How to Use
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

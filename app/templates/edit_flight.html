@@ -1,0 +1,131 @@
+{% extends "base.html" %}
+
+{% block title %}Edit Flight{% endblock %}
+
+{% block content %}
+<div class="container mx-auto max-w-4xl p-6">
+    <h1 class="text-3xl font-bold mb-2">Edit Flight</h1>
+
+    <form id="flightForm" method="POST">
+        <!-- Tabs -->
+        <div class="tabs">
+            <button type="button" class="tab active" data-tab="flight">
+                <i class="fas fa-plane"></i>
+                Flight Details
+            </button>
+            <button type="button" class="tab" data-tab="location">
+                <i class="fas fa-map-marker-alt"></i>
+                Location
+            </button>
+            <button type="button" class="tab" data-tab="conditions">
+                <i class="fas fa-thermometer-half"></i>
+                Conditions
+            </button>
+            <button type="button" class="tab" data-tab="equipment">
+                <i class="fas fa-clipboard-list"></i>
+                Equipment
+            </button>
+        </div>
+
+        <!-- Tab Contents -->
+        <div class="tab-contents">
+            <!-- Flight Details -->
+            <div id="flight" class="tab-content active">
+                <div class="grid grid-cols-2 gap-4">
+                    <div class="form-group">
+                        <label for="title">Title</label>
+                        <input type="text" id="title" name="title" value="{{ flight.title }}" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="duration">Duration (min)</label>
+                        <input type="number" id="duration" name="duration" value="{{ flight.duration }}" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="takeoff_altitude">Takeoff Altitude (m)</label>
+                        <input type="number" step="0.1" id="takeoff_altitude" name="takeoff_altitude" value="{{ flight.takeoff_altitude }}" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="max_altitude">Max Altitude (m)</label>
+                        <input type="number" step="0.1" id="max_altitude" name="max_altitude" value="{{ flight.max_altitude }}" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="takeoff_time">Takeoff Time</label>
+                        <input type="time" id="takeoff_time" name="takeoff_time" value="{{ flight.takeoff_time.strftime('%H:%M') }}" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="landing_time">Landing Time</label>
+                        <input type="time" id="landing_time" name="landing_time" value="{{ flight.landing_time.strftime('%H:%M') if flight.landing_time }}" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="date">Date</label>
+                        <input type="date" id="date" name="date" value="{{ flight.date.strftime('%Y-%m-%d') }}" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="distance_covered">Distance (km)</label>
+                        <input type="number" step="0.1" id="distance_covered" name="distance_covered" value="{{ flight.distance_covered }}" required>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Location -->
+            <div id="location" class="tab-content">
+                <div class="grid grid-cols-2 gap-4">
+                    <div class="form-group">
+                        <label for="takeoff_location">Takeoff Location</label>
+                        <input type="text" id="takeoff_location" name="takeoff_location" value="{{ flight.takeoff_location }}" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="landing_location">Landing Location</label>
+                        <input type="text" id="landing_location" name="landing_location" value="{{ flight.landing_location }}" required>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="gps_track">GPS Track URL</label>
+                    <input type="text" id="gps_track" name="gps_track" value="{{ flight.gps_track }}" placeholder="https://">
+                </div>
+            </div>
+
+            <!-- Conditions -->
+            <div id="conditions" class="tab-content">
+                <div class="grid grid-cols-2 gap-4">
+                    <div class="form-group">
+                        <label for="temperature">Temperature (°C)</label>
+                        <input type="number" id="temperature" name="temperature" value="{{ flight.temperature }}">
+                    </div>
+                    <div class="form-group">
+                        <label for="wind_speed">Wind Speed (km/h)</label>
+                        <input type="number" step="0.1" id="wind_speed" name="wind_speed" value="{{ flight.wind_speed }}">
+                    </div>
+                    <div class="form-group">
+                        <label for="wind_direction">Wind Direction</label>
+                        <input type="text" id="wind_direction" name="wind_direction" value="{{ flight.wind_direction }}">
+                    </div>
+                    <div class="form-group">
+                        <label for="weather_conditions">Weather Conditions</label>
+                        <input type="text" id="weather_conditions" name="weather_conditions" value="{{ flight.weather_conditions }}">
+                    </div>
+                </div>
+            </div>
+
+            <!-- Equipment -->
+            <div id="equipment" class="tab-content">
+                <div class="form-group">
+                    <label for="equipment_used">Equipment Used</label>
+                    <input type="text" id="equipment_used" name="equipment_used" value="{{ flight.equipment_used }}">
+                </div>
+                <div class="form-group">
+                    <label for="notes">Notes</label>
+                    <textarea id="notes" name="notes" placeholder="Add any additional notes about your flight...">{{ flight.notes }}</textarea>
+                </div>
+            </div>
+        </div>
+
+        <div class="flex justify-end gap-4 mt-6">
+            <a href="{{ url_for('main.flight_detail', id=flight.id) }}" class="btn btn-secondary">Cancel</a>
+            <button type="submit" class="btn btn-primary">Save Changes</button>
+        </div>
+    </form>
+</div>
+
+<script src="{{ url_for('static', filename='js/scripts.js') }}"></script>
+{% endblock %}

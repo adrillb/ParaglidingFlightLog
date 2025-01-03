@@ -1,0 +1,60 @@
+{% extends "base.html" %}
+
+{% block title %}Flight Records{% endblock %}
+
+{% block content %}
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h1>Flight Records</h1>
+        <a href="{{ url_for('main.new_flight') }}" class="btn btn-success">
+            <i class="fas fa-plus me-2"></i>New Flight
+        </a>
+    </div>
+    
+    {% if flights %}
+        <div class="table-responsive">
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th>Title</th>
+                        <th>Date</th>
+                        <th>Takeoff</th>
+                        <th>Landing</th>
+                        <th>Duration</th>
+                        <th>Distance</th>
+                        <th>Max Alt.</th>
+                        <th>Weather</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for flight in flights %}
+                        <tr>
+                            <td>{{ flight.title }}</td>
+                            <td>{{ flight.date.strftime('%Y-%m-%d') }}</td>
+                            <td>
+                                {{ flight.takeoff_location }}<br>
+                                <small class="text-muted">{{ flight.takeoff_time.strftime('%H:%M') }}</small>
+                            </td>
+                            <td>
+                                {{ flight.landing_location }}<br>
+                                <small class="text-muted">{{ flight.landing_time.strftime('%H:%M') if flight.landing_time }}</small>
+                            </td>
+                            <td>{{ flight.duration }} min</td>
+                            <td>{{ flight.distance_covered }} km</td>
+                            <td>{{ flight.max_altitude }} m</td>
+                            <td>
+                                {% if flight.temperature %}{{ flight.temperature }}°C<br>{% endif %}
+                                {% if flight.wind_speed %}{{ flight.wind_speed }} km/h{% endif %}
+                            </td>
+                            <td>
+                                <a href="{{ url_for('main.flight_detail', id=flight.id) }}" class="btn btn-sm btn-primary">View</a>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    {% else %}
+        <p class="alert alert-info">No flights recorded yet.</p>
+    {% endif %}
+{% endblock %}

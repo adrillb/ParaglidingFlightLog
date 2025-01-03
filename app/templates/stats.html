@@ -1,0 +1,87 @@
+{% extends "base.html" %}
+
+{% block title %}Statistics{% endblock %}
+
+{% block content %}
+    <div class="d-flex justify-content-between align-items-center">
+        <h1>Flight Stats</h1>
+        <a href="{{ url_for('main.advanced_stats') }}" class="btn btn-info">
+            <i class="fas fa-chart-pie me-2"></i>Advanced Stats
+        </a>
+    </div>
+
+    <!-- Totales -->
+    <h3 class="mt-4 text-center">Totals</h3>
+    <div class="row mt-2">
+        <div class="col-md-3">
+            <div class="card">
+                <div class="card-body text-center">
+                    <h5 class="card-title">Total Flights</h5>
+                    <p class="card-text display-4">{{ stats.total_flights }}</p>
+                </div>
+            </div>
+        </div>
+        
+        <div class="col-md-3">
+            <div class="card">
+                <div class="card-body text-center">
+                    <h5 class="card-title">Total Distance</h5>
+                    <p class="card-text display-4">{{ "%.1f"|format(stats.total_distance) }} km</p>
+                </div>
+            </div>
+        </div>
+        
+        <div class="col-md-3">
+            <div class="card">
+                <div class="card-body text-center">
+                    <h5 class="card-title">Max Altitude</h5>
+                    <p class="card-text display-4">{{ "%.0f"|format(stats.max_altitude) }} m</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-3">
+            <div class="card">
+                <div class="card-body text-center">
+                    <h5 class="card-title">Total Duration</h5>
+                    <p class="card-text display-4">{{ "%.0f"|format(stats.total_duration) }} min</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Acumulados -->
+    <h3 class="mt-4 text-center">Averages per Flight</h3>
+    <div class="row mt-2">
+        <div class="col-md-4">
+            <div class="card">
+                <div class="card-body text-center">
+                    <h5 class="card-title">Average Distance</h5>
+                    <p class="card-text display-4">{{ "%.1f"|format(stats.cumulative_distance) }} km</p>
+                </div>
+            </div>
+        </div>
+        
+        <div class="col-md-4">
+            <div class="card">
+                <div class="card-body text-center">
+                    <h5 class="card-title">Average Max Altitude</h5>
+                    <p class="card-text display-4">{{ "%.0f"|format(stats.cumulative_altitude) }} m</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            <div class="card">
+                <div class="card-body text-center">
+                    <h5 class="card-title">Average Duration</h5>
+                    <p class="card-text display-4">{{ "%.0f"|format(stats.cumulative_duration) }} min</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="mt-4">
+        <a href="{{ url_for('main.index') }}" class="btn btn-primary">Back to Home</a>
+    </div>
+{% endblock %} 

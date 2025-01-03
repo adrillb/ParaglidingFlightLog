@@ -1,0 +1,140 @@
+{% extends "base.html" %}
+
+{% block title %}Advanced Statistics{% endblock %}
+
+{% block content %}
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h1>Advanced Flight Statistics</h1>
+        <a href="{{ url_for('main.stats') }}" class="btn btn-info">
+            <i class="fas fa-chart-line me-2"></i>Basic Statistics
+        </a>
+    </div>
+
+    <div class="row">
+        <!-- Gráfica de duración promedio -->
+        <div class="col-md-6 mb-4">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">Average Duration Trend</h5>
+                    <div class="chart-container">
+                        <canvas id="durationTrend"></canvas>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Gráfica de distancia vs altitud -->
+        <div class="col-md-6 mb-4">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">Distance vs Altitude</h5>
+                    <div class="chart-container">
+                        <canvas id="distanceAltitude"></canvas>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Primero cargamos Chart.js -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
+    
+    <!-- Luego nuestro código -->
+    <script>
+        window.onload = function() {
+            if (typeof Chart === 'undefined') {
+                console.error('Chart.js no está cargado');
+                return;
+            }
+
+            // Gráfica de tendencia de duración
+            new Chart(document.getElementById('durationTrend'), {
+                type: 'line',
+                data: {
+                    labels: {{ flight_data.dates | tojson | safe }},
+                    datasets: [{
+                        label: 'Flight Duration (min)',
+                        data: {{ flight_data.durations | tojson | safe }},
+                        borderColor: 'rgba(75, 192, 192, 1)',
+                        borderWidth: 2,
+                        tension: 0.1,
+                        fill: false
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            title: {
+                                display: true,
+                                text: 'Duration (minutes)'
+                            }
+                        },
+                        x: {
+                            title: {
+                                display: true,
+                                text: 'Date'
+                            }
+                        }
+                    }
+                }
+            });
+
+            // Gráfica de distancia vs altitud
+            new Chart(document.getElementById('distanceAltitude'), {
+                type: 'scatter',
+                data: {
+                    datasets: [{
+                        label: 'Flights',
+                        data: {{ flight_data.distance_altitude | tojson | safe }},
+                        backgroundColor: 'rgba(54, 162, 235, 0.5)',
+                        borderColor: 'rgba(54, 162, 235, 1)',
+                        pointRadius: 6
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: {
+                        x: {
+                            title: {
+                                display: true,
+                                text: 'Distance (km)'
+                            }
+                        },
+                        y: {
+                            title: {
+                                display: true,
+                                text: 'Altitude (m)'
+                            }
+                        }
+                    }
+                }
+            });
+        };
+    </script>
+
+    <style>
+        .chart-container {
+            position: relative;
+            height: 300px;
+            width: 100%;
+            margin: 20px 0;
+        }
+        .card {
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            transition: transform 0.2s;
+        }
+        .card:hover {
+            transform: translateY(-5px);
+        }
+        .card-title {
+            color: #2563eb;
+            font-weight: 500;
+            text-align: center;
+            padding: 10px 0;
+        }
+    </style>
+{% endblock %}
