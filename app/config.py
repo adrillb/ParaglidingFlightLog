@@ -10,8 +10,8 @@ class DevelopmentConfig(Config):
 
 class ProductionConfig(Config):
     DEBUG = False
-    SQLALCHEMY_DATABASE_URI = os.environ.get('DATABASE_URL')
-    SECRET_KEY = os.environ.get('SECRET_KEY')
+    SQLALCHEMY_DATABASE_URI = 'Adrillb1.mysql.pythonanywhere-services.com'
+    SECRET_KEY = 'Paraglide1234'
     
     # Configuraciones de seguridad recomendadas
     SESSION_COOKIE_SECURE = True
