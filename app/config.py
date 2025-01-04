@@ -10,7 +10,7 @@ class DevelopmentConfig(Config):
 
 class ProductionConfig(Config):
     DEBUG = False
-    SQLALCHEMY_DATABASE_URI = 'Adrillb1.mysql.pythonanywhere-services.com'
+    SQLALCHEMY_DATABASE_URI = 'mysql://Adrillb1:Paraglide1234@Adrillb1.mysql.pythonanywhere-services.com/Adrillb1$paragliding'
     SECRET_KEY = 'Paraglide1234'
     
     # Configuraciones de seguridad recomendadas
